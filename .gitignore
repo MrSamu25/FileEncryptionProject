@@ -1,0 +1,11 @@
+#Cosas de eclipse no se suben a github
+
+
+*.project
+*.classpath
+
+.settings/
+
+*.settings
+
+*.prefs
