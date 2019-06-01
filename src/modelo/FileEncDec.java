@@ -6,9 +6,6 @@ import java.io.FileReader;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-
-import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
-
 import java.io.*;
 import java.security.Key;
 import java.security.MessageDigest;
@@ -36,6 +33,9 @@ public class FileEncDec {
 			outputStream.write(outputBytes);
 			inputStream.close();
 			outputStream.close();
+			PrintWriter writer = new PrintWriter("outSha-1.txt", "UTF-8");
+	        writer.print(getSha1(inputFile));
+	        writer.close();
 		} catch (Exception e) {
 			System.out.println("Error");
 		}
