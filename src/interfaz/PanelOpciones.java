@@ -38,7 +38,7 @@ public class PanelOpciones extends JPanel implements ActionListener {
 
 	public final static String MENSAJE_NOMBRE_ARCHIVO = "Nombre archivo";
 
-	public final static String MENSAJE_NOMBRE_ARCHIVO_ORIGINAL = "Nombre archivo original";
+	public final static String MENSAJE_NOMBRE_ARCHIVO_HASH = "Nombre archivo hash";
 
 	public final static String ENCRIPTAR = "ENCRIPTAR";
 	public final static String DESENCRIPTAR = "DESENCRIPTAR ";
@@ -61,7 +61,7 @@ public class PanelOpciones extends JPanel implements ActionListener {
 	private JLabel lab_ingresar_semilla;
 	private JTextField txt_ingresar_semilla;
 
-	private JButton but_escoger_archivo_original;
+	private JButton but_escoger_archivo_hash;
 	private JLabel lab_nombre_archivo_original;
 
 	private JLabel lab_fantasma_7;
@@ -163,11 +163,11 @@ public class PanelOpciones extends JPanel implements ActionListener {
 
 		gbc = new GridBagConstraints(0, 10, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(5, 5, 5, 5), 0, 0);
-		but_escoger_archivo_original = new JButton("Seleccionar archivo original");
-		but_escoger_archivo_original.setActionCommand(ESCOGER_ARCHIVO_ORIGINAL);
-		but_escoger_archivo_original.addActionListener(this);
-		but_escoger_archivo_original.setVisible(false);
-		add(but_escoger_archivo_original, gbc);
+		but_escoger_archivo_hash = new JButton("Seleccionar archivo hash");
+		but_escoger_archivo_hash.setActionCommand(ESCOGER_ARCHIVO_ORIGINAL);
+		but_escoger_archivo_hash.addActionListener(this);
+		but_escoger_archivo_hash.setVisible(false);
+		add(but_escoger_archivo_hash, gbc);
 
 		gbc = new GridBagConstraints(1, 10, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(5, 5, 5, 5), 0, 0);
@@ -212,7 +212,7 @@ public class PanelOpciones extends JPanel implements ActionListener {
 			tb_switch_encriptar.setBackground(Color.GREEN);
 			tb_switch_desencriptar.setBackground(Color.WHITE);
 
-			but_escoger_archivo_original.setVisible(false);
+			but_escoger_archivo_hash.setVisible(false);
 			lab_nombre_archivo_original.setVisible(false);
 
 			lab_titulo.setText(TITULO_MODO_ENCRIPTAR);
@@ -229,7 +229,7 @@ public class PanelOpciones extends JPanel implements ActionListener {
 			tb_switch_desencriptar.setBackground(Color.GREEN);
 			tb_switch_encriptar.setBackground(Color.WHITE);
 
-			but_escoger_archivo_original.setVisible(true);
+			but_escoger_archivo_hash.setVisible(true);
 			lab_nombre_archivo_original.setVisible(true);
 
 			lab_titulo.setText(TITULO_MODO_DESENCRIPTAR);
@@ -348,7 +348,7 @@ public class PanelOpciones extends JPanel implements ActionListener {
 
 		lab_nombre_archivo.setText(MENSAJE_NOMBRE_ARCHIVO);
 		txt_ingresar_semilla.setText("");
-		lab_nombre_archivo_original.setText(MENSAJE_NOMBRE_ARCHIVO_ORIGINAL);
+		lab_nombre_archivo_original.setText(MENSAJE_NOMBRE_ARCHIVO_HASH);
 
 		file_encriptar_desencriptar = null;
 		file_desencriptar_original = null;

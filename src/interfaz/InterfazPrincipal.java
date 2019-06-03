@@ -3,8 +3,14 @@ package interfaz;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.File;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import modelo.DesEncriptadorArchivo;
 
 public class InterfazPrincipal extends JFrame {
 
@@ -40,10 +46,18 @@ public class InterfazPrincipal extends JFrame {
 	 * @param semilla              != null. Semilla con la cual se encripta.
 	 */
 	public void encriptarArchivo(File archivoParaEncriptar, String semilla) {
+		try {
+
+			DesEncriptadorArchivo encriptador = new DesEncriptadorArchivo(archivoParaEncriptar, semilla);
+			encriptador.encriptar();
+			JOptionPane.showMessageDialog(this, "Se encripto correctante el archivo "+ archivoParaEncriptar.getName());
+		} catch (Exception e) {
+
+			JOptionPane.showMessageDialog(this, e);
+		}
 
 	}
 
-	// AQUÍ SE LLAMA AL MUNDO
 
 	/**
 	 * 
@@ -60,8 +74,17 @@ public class InterfazPrincipal extends JFrame {
 	 *                                iguales la operación fue un éxito. No errores
 	 *                                desencriptando.
 	 */
-	public void desencriptarArchivo(File archivoParaDesencriptar, String semilla, File archivoOriginal) {
-		
+	public void desencriptarArchivo(File archivoParaDesencriptar, String semilla, File archivoHash) {
+		DesEncriptadorArchivo encriptador;
+		try {
+			encriptador = new DesEncriptadorArchivo(archivoParaDesencriptar, semilla);
+			encriptador.desencriptar(archivoHash);
+			JOptionPane.showMessageDialog(this, "Se desencripto correctante el archivo "+ archivoParaDesencriptar.getName());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(this, e);
+		}
+
 	}
 
 }
