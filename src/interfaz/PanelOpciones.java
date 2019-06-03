@@ -16,6 +16,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
@@ -158,7 +159,7 @@ public class PanelOpciones extends JPanel implements ActionListener {
 	 * Campo de texto donde se ingresa la semilla para la clave de encriptación y
 	 * desencriptación
 	 */
-	private JTextField txt_ingresar_semilla;
+	private JPasswordField txt_ingresar_semilla;
 
 	/**
 	 * Botón para seleccionar el archivo donde se encuentra el hash como resultado
@@ -291,7 +292,7 @@ public class PanelOpciones extends JPanel implements ActionListener {
 
 		gbc = new GridBagConstraints(1, 9, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(5, 5, 5, 5), 0, 0);
-		txt_ingresar_semilla = new JTextField(5);
+		txt_ingresar_semilla = new JPasswordField(5);
 		add(txt_ingresar_semilla, gbc);
 
 		gbc = new GridBagConstraints(0, 10, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH,
