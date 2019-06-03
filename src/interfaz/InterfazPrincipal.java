@@ -14,6 +14,10 @@ import modelo.DesEncriptadorArchivo;
 
 public class InterfazPrincipal extends JFrame {
 
+	/**
+	 * Panel donde se encuentras las funcionalidades de encriptación y
+	 * desencriptación.
+	 */
 	private PanelOpciones panelOpciones;
 
 	public static void main(String[] args) {
@@ -36,52 +40,48 @@ public class InterfazPrincipal extends JFrame {
 
 	}
 
-	// AQUÍ SE LLAMA AL MUNDO
 	/**
-	 * 
-	 * @param archivoParaEncriptar != null. El archivo que se va a encriptar. El
-	 *                             archivo resultante (encriptado) se puede dejar en
-	 *                             una ruta por defecto para hacer más fácil las
-	 *                             cosas.
-	 * @param semilla              != null. Semilla con la cual se encripta.
+	 * @descripcion Conecta los componentes e información de la interfaz de
+	 *              encriptación, con las funcionades de encriptación del mundo.
+	 * @fecha 29/05/2019.
+	 * @param archivoParaEncriptar != null. El archivo que se va a encriptar.
+	 * @param semilla              != null. Semilla con la cual se genera una clave
+	 *                             para la encripción.
+	 * @author Steven M.
 	 */
 	public void encriptarArchivo(File archivoParaEncriptar, String semilla) {
 		try {
 
 			DesEncriptadorArchivo encriptador = new DesEncriptadorArchivo(archivoParaEncriptar, semilla);
 			encriptador.encriptar();
-			JOptionPane.showMessageDialog(this, "Se encripto correctante el archivo "+ archivoParaEncriptar.getName());
+			JOptionPane.showMessageDialog(this, "Se encripto correctante el archivo " + archivoParaEncriptar.getName());
 		} catch (Exception e) {
-
 			JOptionPane.showMessageDialog(this, e);
 		}
 
 	}
 
-
 	/**
-	 * 
-	 * @param archivoParaDesencriptar != null. Lo debe desencriptar y dejar el
-	 *                                archivo resultante (encriptado) en una ruta
-	 *                                --> ¿por defecto (una ruta default para
-	 *                                hacerlo más facil)?
+	 * @descripcion Conecta los componentes e información de la interfaz de
+	 *              desencriptación, con las funcionades de desencriptación del mundo.
+	 * @fecha 29/05/2019.
+	 * @param archivoParaDesencriptar != null. archivo que se va a desencriptar
 	 * @param semilla                 != null. Semilla para poner desencriptar el
 	 *                                archivo. Debe ser la misma con la que se
 	 *                                encripto el archivo.
-	 * @param archivoOriginal         != null. Este es el archivo original para de
-	 *                                él obtener el hash y poder comparar con el
-	 *                                hash obtenido cuando se desencripta. Si son
-	 *                                iguales la operación fue un éxito. No errores
-	 *                                desencriptando.
+	 * @param archivoOriginal         != null. Este es el archivo que contiene el
+	 *                                hash con el cual se encriptó el archivo que se
+	 *                                va a desencriptar.
+	 * @author Steven M.
 	 */
 	public void desencriptarArchivo(File archivoParaDesencriptar, String semilla, File archivoHash) {
 		DesEncriptadorArchivo encriptador;
 		try {
 			encriptador = new DesEncriptadorArchivo(archivoParaDesencriptar, semilla);
 			encriptador.desencriptar(archivoHash);
-			JOptionPane.showMessageDialog(this, "Se desencripto correctante el archivo "+ archivoParaDesencriptar.getName());
+			JOptionPane.showMessageDialog(this,
+					"Se desencripto correctante el archivo " + archivoParaDesencriptar.getName());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(this, e);
 		}
 

@@ -22,62 +22,195 @@ import javax.swing.JToggleButton;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
+import javafx.geometry.Pos;
+
 public class PanelOpciones extends JPanel implements ActionListener {
 
+	/**
+	 * Cadena que indica la funcionalidad actual del sistema es encriptar archivos
+	 */
 	public final static String TITULO_MODO_ENCRIPTAR = "MODO ENCRIPTAR ARCHIVOS";
+
+	/**
+	 * Cadena que indica la funcionalidad actual del sistema es desencriptar
+	 * archivos
+	 */
 	public final static String TITULO_MODO_DESENCRIPTAR = "MODO DESENCRIPTAR ARCHIVOS";
 
+	/**
+	 * Cadena utilizada para identificar cuando el botón toggle de encriptar fue
+	 * presionado
+	 */
 	public final static String TOGGLE_BUTTON_ENCRIPTAR = "TOGGLE_BUTTON_ENCRIPTAR";
+
+	/**
+	 * Cadena utilizada para identificar cuando el botón toggle de encriptar fue
+	 * presionado
+	 */
 	public final static String TOGGLE_BUTTON_DESENCRIPTAR = "TOGGLE_BUTTON_DESENCRIPTAR";
 
+	/**
+	 * Cadena utilizada para identificar cuando el botón escoger archivo fue
+	 * presionado
+	 */
 	public final static String ESCOGER_ARCHIVO = "ESCOGER_ARCHIVO";
 
+	/**
+	 * Cadena utilizada para identificar cuando el botón escoger archivo hash fue
+	 * presionado
+	 */
 	public final static String ESCOGER_ARCHIVO_ORIGINAL = "ESCOGER_ARCHIVO_ORIGINAL";
 
+	/**
+	 * Cadena utilizada para identificar cuando el botón de encriptar/desencriptar
+	 * (dependiendo del modo actual) fue presionado
+	 */
 	public final static String ENCRIPTAR_DESENCRIPTAR = "ENCRIPTAR_DESENCRIPTAR";
 
+	/**
+	 * Nombre del archivo que fue seleccionado para encriptar/desencriptar
+	 */
 	public final static String MENSAJE_NOMBRE_ARCHIVO = "Nombre archivo";
 
+	/**
+	 * Nombre del archivo hash usado para desencriptar un archivo seleccionado
+	 */
 	public final static String MENSAJE_NOMBRE_ARCHIVO_HASH = "Nombre archivo hash";
 
+	/**
+	 * Posible funcionalidad actual del sistema - ENCRIPTAR
+	 */
 	public final static String ENCRIPTAR = "ENCRIPTAR";
+
+	/**
+	 * Posible funcionalidad actual del sistema - DESENCRIPTAR
+	 */
 	public final static String DESENCRIPTAR = "DESENCRIPTAR ";
 
+	/**
+	 * Varible donde se guarda la funcionalidad actual del sistema (ENCRIPTAR o
+	 * DESENCRIPTAR)
+	 */
 	private String modo_funcionalidad;
 
+	/**
+	 * Componente de interfaz donde se muestra la funcionalidad actual del sistema
+	 */
 	private JLabel lab_titulo;
+
+	/**
+	 * Componente secundario de la interfaz utilizado para ordernar otros elementos
+	 */
 	private JLabel lab_fantasma_1;
+
+	/**
+	 * Componente secundario de la interfaz utilizado para ordernar otros elementos
+	 */
 	private JLabel lab_fantasma_2;
+
+	/**
+	 * Componente secundario de la interfaz utilizado para ordernar otros elementos
+	 */
 	private JLabel lab_fantasma_3;
+
+	/**
+	 * Componente secundario de la interfaz utilizado para ordernar otros elementos
+	 */
 	private JLabel lab_fantasma_4;
+
+	/**
+	 * Componente secundario de la interfaz utilizado para ordernar otros elementos
+	 */
 	private JLabel lab_fantasma_5;
+
+	/**
+	 * Componente secundario de la interfaz utilizado para ordernar otros elementos
+	 */
 	private JLabel lab_fantasma_6;
 
+	/**
+	 * Botón que alterna a modo encriptar archivos
+	 */
 	private JButton tb_switch_encriptar;
+
+	/**
+	 * Botón que alterna a modo desencriptar archivos
+	 */
 	private JButton tb_switch_desencriptar;
+
+	/**
+	 * Botón para escoger el archivo a encriptar/descencriptar
+	 */
 	private JButton but_escoger_archivo;
+
+	/**
+	 * Label donde se muestra el archivo seleccionado para encriptar/descencriptar
+	 */
 	private JLabel lab_nombre_archivo;
 
+	/**
+	 * Label que indica que se debe ingresar la semilla para la clave de
+	 * encriptación y desencriptación
+	 */
 	private JLabel lab_ingresar_semilla;
+
+	/**
+	 * Campo de texto donde se ingresa la semilla para la clave de encriptación y
+	 * desencriptación
+	 */
 	private JTextField txt_ingresar_semilla;
 
+	/**
+	 * Botón para seleccionar el archivo donde se encuentra el hash como resultado
+	 * de la encriptación
+	 */
 	private JButton but_escoger_archivo_hash;
+
+	/**
+	 * Label que indica el nombre del arhivo hash escogido
+	 */
 	private JLabel lab_nombre_archivo_original;
 
+	/**
+	 * Componente secundario de la interfaz utilizado para ordernar otros elementos
+	 */
 	private JLabel lab_fantasma_7;
+
+	/**
+	 * Componente secundario de la interfaz utilizado para ordernar otros elementos
+	 */
 	private JLabel lab_fantasma_8;
+
+	/**
+	 * Componente secundario de la interfaz utilizado para ordernar otros elementos
+	 */
 	private JLabel lab_fantasma_9;
 
+	/**
+	 * Botón que inicia la funcionalidad de encriptar/desencriptar dependiendo del
+	 * modo actual del sistema
+	 */
 	private JButton but_encriptar_desencriptar;
 
+	/**
+	 * Referencia a la interfaz principal
+	 */
 	private InterfazPrincipal principal;
 
-	// Atributos
+	/**
+	 * FileChooser con el cual se selecciona archivos del sistema
+	 */
 	private JFileChooser fc;
 
+	/**
+	 * Archivo que se va a encriptar/desencriptar
+	 */
 	private File file_encriptar_desencriptar;
 
-	private File file_desencriptar_original;
+	/**
+	 * Archivo que contiene el hash de encriptación
+	 */
+	private File file_hash;
 
 	public PanelOpciones(InterfazPrincipal principal) {
 
@@ -171,7 +304,7 @@ public class PanelOpciones extends JPanel implements ActionListener {
 
 		gbc = new GridBagConstraints(1, 10, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(5, 5, 5, 5), 0, 0);
-		lab_nombre_archivo_original = new JLabel("MENSAJE_NOMBRE_ARCHIVO_ORIGINAL");
+		lab_nombre_archivo_original = new JLabel(MENSAJE_NOMBRE_ARCHIVO_HASH);
 		lab_nombre_archivo_original.setVisible(false);
 		add(lab_nombre_archivo_original, gbc);
 
@@ -201,6 +334,12 @@ public class PanelOpciones extends JPanel implements ActionListener {
 		fc = new JFileChooser();
 	}
 
+	/**
+	 * @descripcion Identifica cual de los componentes activo un evento en la interfaz.
+	 * @fecha 29/05/2019.
+	 * @pos Se realizan las funcionalidades asociadas al componente que generó un evento en la interfaz.
+	 * @author Steven M.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		String comando = arg0.getActionCommand();
@@ -209,35 +348,13 @@ public class PanelOpciones extends JPanel implements ActionListener {
 
 		case TOGGLE_BUTTON_ENCRIPTAR:
 
-			tb_switch_encriptar.setBackground(Color.GREEN);
-			tb_switch_desencriptar.setBackground(Color.WHITE);
-
-			but_escoger_archivo_hash.setVisible(false);
-			lab_nombre_archivo_original.setVisible(false);
-
-			lab_titulo.setText(TITULO_MODO_ENCRIPTAR);
-			but_encriptar_desencriptar.setText(ENCRIPTAR);
-
-			// Pasa a modo ENCRIPTAR
-			modo_funcionalidad = ENCRIPTAR;
-
+			cambiarFuncionalidadEncriptar();
 			reiniciarTodo();
 			break;
 
 		case TOGGLE_BUTTON_DESENCRIPTAR:
 
-			tb_switch_desencriptar.setBackground(Color.GREEN);
-			tb_switch_encriptar.setBackground(Color.WHITE);
-
-			but_escoger_archivo_hash.setVisible(true);
-			lab_nombre_archivo_original.setVisible(true);
-
-			lab_titulo.setText(TITULO_MODO_DESENCRIPTAR);
-			but_encriptar_desencriptar.setText(DESENCRIPTAR);
-
-			// Pasa a modo DESENCRIPTAR
-			modo_funcionalidad = DESENCRIPTAR;
-
+			cambiarFuncionalidadDesencriptar();
 			reiniciarTodo();
 			break;
 
@@ -253,18 +370,19 @@ public class PanelOpciones extends JPanel implements ActionListener {
 
 			if (modo_funcionalidad.equals(ENCRIPTAR)) {
 
-				if(verificarCamposCompletosEncriptar()) {
+				if (verificarCamposCompletosEncriptar()) {
 					principal.encriptarArchivo(file_encriptar_desencriptar, txt_ingresar_semilla.getText());
+					reiniciarTodo();
 				}
-				
 			}
 
 			else if (modo_funcionalidad.equals(DESENCRIPTAR)) {
-				
-				if(verificarCamposCompletosDesencriptar()) {
-					principal.desencriptarArchivo(file_encriptar_desencriptar, txt_ingresar_semilla.getText(), file_desencriptar_original);
+
+				if (verificarCamposCompletosDesencriptar()) {
+					principal.desencriptarArchivo(file_encriptar_desencriptar, txt_ingresar_semilla.getText(),
+							file_hash);
+					reiniciarTodo();
 				}
-				
 			}
 
 			break;
@@ -272,6 +390,58 @@ public class PanelOpciones extends JPanel implements ActionListener {
 
 	}
 
+	/**
+	 * @descripcion método que cambia la interfaz a modo encriptación.
+	 * @fecha 29/05/2019.
+	 * @pos Se ocultan los componentes que no son necesarios para el modo de
+	 *      encriptar y se visibilian aquellos que si.
+	 * @author Steven M.
+	 */
+	public void cambiarFuncionalidadEncriptar() {
+		tb_switch_encriptar.setBackground(Color.GREEN);
+		tb_switch_desencriptar.setBackground(Color.WHITE);
+
+		but_escoger_archivo_hash.setVisible(false);
+		lab_nombre_archivo_original.setVisible(false);
+
+		lab_titulo.setText(TITULO_MODO_ENCRIPTAR);
+		but_encriptar_desencriptar.setText(ENCRIPTAR);
+
+		// Pasa a modo ENCRIPTAR
+		modo_funcionalidad = ENCRIPTAR;
+	}
+
+	/**
+	 * @descripcion método que cambia la interfaz a modo desencriptación.
+	 * @fecha 29/05/2019.
+	 * @pos Se ocultan los componentes que no son necesarios para el modo de
+	 *      desencriptar y se visibilizan aquellos que si.
+	 * @author Steven M.
+	 */
+	public void cambiarFuncionalidadDesencriptar() {
+
+		tb_switch_desencriptar.setBackground(Color.GREEN);
+		tb_switch_encriptar.setBackground(Color.WHITE);
+
+		but_escoger_archivo_hash.setVisible(true);
+		lab_nombre_archivo_original.setVisible(true);
+
+		lab_titulo.setText(TITULO_MODO_DESENCRIPTAR);
+		but_encriptar_desencriptar.setText(DESENCRIPTAR);
+
+		// Pasa a modo DESENCRIPTAR
+		modo_funcionalidad = DESENCRIPTAR;
+	}
+
+	/**
+	 * @descripcion Verifica que los campos necesarios para encriptar un archivo
+	 *              esten completos.
+	 * @fecha 29/05/2019.
+	 * @pos Todos los campos necesarios para la encriptación de un archivo están
+	 *      completos.
+	 * @return true si todos los campos están completos, false en caso contrario.
+	 * @author Steven M.
+	 */
 	public boolean verificarCamposCompletosEncriptar() {
 
 		boolean completos = true;
@@ -282,13 +452,23 @@ public class PanelOpciones extends JPanel implements ActionListener {
 		}
 
 		else if (txt_ingresar_semilla.getText().equals("") || txt_ingresar_semilla.getText().trim().equals("")) {
-			JOptionPane.showMessageDialog(null, "Debe ingresar una semilla para encriptar/desencriptar", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Debe ingresar una semilla para encriptar/desencriptar", "Error",
+					JOptionPane.ERROR_MESSAGE);
 			completos = false;
 		}
 
 		return completos;
 	}
 
+	/**
+	 * @descripcion Verifica que los campos necesarios para desencriptar un archivo
+	 *              esten completos.
+	 * @fecha 29/05/2019
+	 * @pos Todos los campos necesarios para la desencriptación de un archivo están
+	 *      completos.
+	 * @return true si todos los campos están completos, false en caso contrario.
+	 * @author Steven M.
+	 */
 	public boolean verificarCamposCompletosDesencriptar() {
 
 		boolean completos = true;
@@ -300,19 +480,28 @@ public class PanelOpciones extends JPanel implements ActionListener {
 
 		else if (txt_ingresar_semilla.getText().equals("") || txt_ingresar_semilla.getText().trim().equals("")) {
 			completos = false;
-			JOptionPane.showMessageDialog(null, "Debe ingresar una semilla para encriptar/desencriptar", "Error", JOptionPane.ERROR_MESSAGE);
-		} 
-		
-		else if (file_desencriptar_original == null) {
+			JOptionPane.showMessageDialog(null, "Debe ingresar una semilla para encriptar/desencriptar", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+
+		else if (file_hash == null) {
 			completos = false;
-			JOptionPane.showMessageDialog(null, "Debe seleccionar el archivo original para verificar Hash", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Debe seleccionar el archivo hash de encriptación ", "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 
 		return completos;
 	}
 
-	
-	//Esto es el archivo principal para encriptarlo o desencriptarlo
+	/**
+	 * @descripcion Permite seleccionar el archivo que va a ser
+	 *              encriptado/desencriptado.
+	 * @fecha 29/05/2019.
+	 * @pos El archivo que va a ser encriptado/desencriptado es almacenado en la
+	 *      variable file_encriptar_desencriptar. El nombre del archivo seleccionado
+	 *      aparece en la interfaz.
+	 * @author Steven M.
+	 */
 	public void seleccionarArchivoPrincipal() {
 
 		int returnVal = fc.showOpenDialog(PanelOpciones.this);
@@ -328,15 +517,22 @@ public class PanelOpciones extends JPanel implements ActionListener {
 
 	}
 
-	// Esto es el archivo secundario para sacar el hash
+	/**
+	 * @descripcion Permite seleccionar el archivo que contiene el hash para
+	 *              comprobar la desencriptación.
+	 * @fecha 29/05/2019.
+	 * @pos El archivo hash es almacenado en la variable file_hash. El nombre del
+	 *      archivo hash seleccionado aparece en la interfaz.
+	 * @author Steven M.
+	 */
 	public void seleccionarArchivoSecundario() {
 
 		int returnVal = fc.showOpenDialog(PanelOpciones.this);
 
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			file_desencriptar_original = fc.getSelectedFile();
+			file_hash = fc.getSelectedFile();
 
-			lab_nombre_archivo_original.setText(file_desencriptar_original.getName());
+			lab_nombre_archivo_original.setText(file_hash.getName());
 
 		} else {
 			// System.out.println("Open command cancelled by user.");
@@ -344,6 +540,16 @@ public class PanelOpciones extends JPanel implements ActionListener {
 
 	}
 
+	/**
+	 * @descripcion Permite limpiar todos los campos ingresados para que el usuario
+	 *              pueda nuevamente usar la funcionalidad de encriptar o
+	 *              desencriptar.
+	 * @fecha 29/05/2019.
+	 * @pos Los campos del nombre del archivo seleccionado, semilla para la clave y
+	 *      nombre hash están limpias. Las variables file_encriptar_desencriptar y
+	 *      file_hash quedan vacias a esperan de una nueva selección de archivos.
+	 * @author Steven M.
+	 */
 	public void reiniciarTodo() {
 
 		lab_nombre_archivo.setText(MENSAJE_NOMBRE_ARCHIVO);
@@ -351,7 +557,7 @@ public class PanelOpciones extends JPanel implements ActionListener {
 		lab_nombre_archivo_original.setText(MENSAJE_NOMBRE_ARCHIVO_HASH);
 
 		file_encriptar_desencriptar = null;
-		file_desencriptar_original = null;
+		file_hash = null;
 
 	}
 
