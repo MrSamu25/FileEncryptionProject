@@ -25,6 +25,9 @@ import javax.crypto.spec.SecretKeySpec;
  * 
  */
 public class DesEncriptadorArchivo {
+	/**
+	 * constante que especifica el algoritmo de cifrado y el método que se utilizara para cifrar mensajes largos
+	 */
 	public final String TRANSFORMATION = "AES/CBC/PKCS5Padding";
 	
 	/**
