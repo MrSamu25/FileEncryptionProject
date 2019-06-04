@@ -31,6 +31,11 @@ public class DesEncriptadorArchivo {
 	public final String TRANSFORMATION = "AES/CBC/PKCS5Padding";
 	
 	/**
+	 * constante que especifica el algoritmo de cifrado y el método que se utilizara para cifrar mensajes largos
+	 */
+	public final String TIPO_HASH = "SHA1";
+	
+	/**
 	 * ruta del archivo que se quiere encriptar o desencriptar
 	 */
 	private File ruta;
@@ -53,7 +58,7 @@ public class DesEncriptadorArchivo {
 	public DesEncriptadorArchivo(File rutaArchivo, String claveSecreta)
 			throws NoSuchAlgorithmException, InvalidKeySpecException {
 		this.ruta = rutaArchivo;
-		generarClave(claveSecreta);
+		this.clave = claveSecreta;
 
 	}
 	
@@ -64,11 +69,27 @@ public class DesEncriptadorArchivo {
 	 * @param clave palabra base para generar la clave
 	 */
 
-	private void generarClave(String clave) throws NoSuchAlgorithmException, InvalidKeySpecException {
+	private void generarClaveAleatoria() throws NoSuchAlgorithmException, InvalidKeySpecException {
 		Random srandom = new Random();
-		this.clave = clave;
 		salt = new byte[8];
 		srandom.nextBytes(salt);
+		SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+		KeySpec spec = new PBEKeySpec(clave.toCharArray(), salt, 10000, 128);
+		SecretKey tmp = factory.generateSecret(spec);
+		SecretKeySpec skey = new SecretKeySpec(tmp.getEncoded(), "AES");
+		this.claveSecreta = skey;
+
+	}
+	
+	
+	/**
+	 * @descripcion genera la clave con una sal específica para comenzar la desencriptación, teniendo en cuenta la palabra ingresada como parámetro
+	 * @author Ana Arango
+	 * @fecha 30/05/2019
+	 * @param sal para generar la clave
+	 */
+
+	private void generarClave(byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
 		KeySpec spec = new PBEKeySpec(clave.toCharArray(), salt, 10000, 128);
 		SecretKey tmp = factory.generateSecret(spec);
@@ -85,7 +106,7 @@ public class DesEncriptadorArchivo {
 	 * @pos se crea el archivo encriptado en la misma carpeta donde se encuentra el archivo original
 	 */
 	public void encriptar() throws Exception {
-
+		generarClaveAleatoria();
 		Cipher cipher = Cipher.getInstance(TRANSFORMATION);
 		cipher.init(Cipher.ENCRYPT_MODE, claveSecreta);
 		byte[] iv = cipher.getIV();
@@ -116,14 +137,9 @@ public class DesEncriptadorArchivo {
 			byte[] salt = new byte[8], iv = new byte[128 / 8];
 			in.read(salt);
 			in.read(iv);
-
-			SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-			KeySpec spec = new PBEKeySpec(clave.toCharArray(), salt, 10000, 128);
-			SecretKey tmp = factory.generateSecret(spec);
-			SecretKeySpec skey = new SecretKeySpec(tmp.getEncoded(), "AES");
-
-			Cipher ci = Cipher.getInstance("AES/CBC/PKCS5Padding");
-			ci.init(Cipher.DECRYPT_MODE, skey, new IvParameterSpec(iv));
+			generarClave(salt);
+			Cipher ci = Cipher.getInstance(TRANSFORMATION);
+			ci.init(Cipher.DECRYPT_MODE, claveSecreta, new IvParameterSpec(iv));
 			try (FileOutputStream out = new FileOutputStream(ruta + ".des")) {
 				procesarArchivo(ci, in, out);
 
@@ -179,7 +195,7 @@ public class DesEncriptadorArchivo {
 	 * de se encuentra el archivo encriptado
 	 */
 	public String hashValue(File archivo) throws Exception {
-		MessageDigest sha1 = MessageDigest.getInstance("SHA1");
+		MessageDigest sha1 = MessageDigest.getInstance(TIPO_HASH);
 		FileInputStream in = new FileInputStream(archivo);
 
 		byte[] data = new byte[1024];
