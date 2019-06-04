@@ -109,26 +109,42 @@ public class DesEncriptadorArchivo {
 	 */
 
 	public void desencriptar(File archivoHash) throws Exception {
-		FileInputStream in = new FileInputStream(ruta);
-		byte[] salt = new byte[8], iv = new byte[128 / 8];
-		in.read(salt);
-		in.read(iv);
+		
+		
+		try {
+			FileInputStream in = new FileInputStream(ruta);
+			byte[] salt = new byte[8], iv = new byte[128 / 8];
+			in.read(salt);
+			in.read(iv);
 
-		SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-		KeySpec spec = new PBEKeySpec(clave.toCharArray(), salt, 10000, 128);
-		SecretKey tmp = factory.generateSecret(spec);
-		SecretKeySpec skey = new SecretKeySpec(tmp.getEncoded(), "AES");
+			SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+			KeySpec spec = new PBEKeySpec(clave.toCharArray(), salt, 10000, 128);
+			SecretKey tmp = factory.generateSecret(spec);
+			SecretKeySpec skey = new SecretKeySpec(tmp.getEncoded(), "AES");
 
-		Cipher ci = Cipher.getInstance("AES/CBC/PKCS5Padding");
-		ci.init(Cipher.DECRYPT_MODE, skey, new IvParameterSpec(iv));
-		try (FileOutputStream out = new FileOutputStream(ruta + ".des")) {
-			procesarArchivo(ci, in, out);
+			Cipher ci = Cipher.getInstance("AES/CBC/PKCS5Padding");
+			ci.init(Cipher.DECRYPT_MODE, skey, new IvParameterSpec(iv));
+			try (FileOutputStream out = new FileOutputStream(ruta + ".des")) {
+				procesarArchivo(ci, in, out);
 
+			}
+			File des = new File(ruta + ".des");
+			if(!(compararHashes(hashValue(des), archivoHash))){
+				des.delete();
+				throw new Exception("El hash del archivo desencriptado no es igual al hash del archivo original, por lo que no se desencripta correctamente");			
+			}
+			
+		}catch(Exception e) {
+			//Se verifica que si se ha creado un archivo, como es inválido se debe eliminar
+			File des =new File(ruta + ".des");
+			if(des.exists()) {
+				des.delete();
+			}
+			
+			throw e;
 		}
-		File des = new File(ruta + ".des");
-		if(!(compararHashes(hashValue(des), archivoHash))){
-			throw new Exception("El hash del archivo desencriptado no es igual al hash del archivo original");
-		}
+		
+		
 
 	}
 	

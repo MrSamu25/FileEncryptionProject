@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -54,9 +56,9 @@ public class InterfazPrincipal extends JFrame {
 
 			DesEncriptadorArchivo encriptador = new DesEncriptadorArchivo(archivoParaEncriptar, semilla);
 			encriptador.encriptar();
-			JOptionPane.showMessageDialog(this, "Se encripto correctante el archivo " + archivoParaEncriptar.getName());
+			JOptionPane.showMessageDialog(this, "Se encriptó correctamente el archivo " + archivoParaEncriptar.getName());
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e);
+			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
 
 	}
@@ -76,14 +78,23 @@ public class InterfazPrincipal extends JFrame {
 	 */
 	public void desencriptarArchivo(File archivoParaDesencriptar, String semilla, File archivoHash) {
 		DesEncriptadorArchivo encriptador;
-		try {
-			encriptador = new DesEncriptadorArchivo(archivoParaDesencriptar, semilla);
-			encriptador.desencriptar(archivoHash);
-			JOptionPane.showMessageDialog(this,
-					"Se desencripto correctante el archivo " + archivoParaDesencriptar.getName());
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e);
-		}
+
+			try {
+				encriptador = new DesEncriptadorArchivo(archivoParaDesencriptar, semilla);
+				encriptador.desencriptar(archivoHash);
+				JOptionPane.showMessageDialog(this,
+						"Se desencriptó correctamente el archivo " + archivoParaDesencriptar.getName());
+			} catch (NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException e ) {
+				JOptionPane.showMessageDialog(this,
+						"La clave semilla ingresada no es correcta o no se adjuntaron los archivos correspondientes");
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this,
+						e.getMessage());
+				
+			}
+
+			
+
 
 	}
 
